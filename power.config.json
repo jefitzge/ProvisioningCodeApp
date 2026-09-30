@@ -1,0 +1,127 @@
+{
+  "version": "1.0",
+  "appId": null,
+  "appDisplayName": "Conduit",
+  "region": "prod",
+  "appType": "CodeApp",
+  "environmentId": "0645502f-fa96-e44f-a450-0d2439214f10",
+  "description": " ",
+  "buildPath": "./dist",
+  "buildEntryPoint": "index.html",
+  "localAppUrl": "http://localhost:3000",
+  "logoPath": "Default",
+  "connectionReferences": {},
+  "databaseReferences": {
+    "default.cds": {
+      "databaseDetails": {
+        "environmentName": "default.cds",
+        "referenceType": "Environmental",
+        "linkedEnvironmentMetadata": {
+          "resourceId": "c0208747-399f-f011-8706-6045bd021d15",
+          "friendlyName": "Developer Environment 2025",
+          "uniqueName": "unqc0208747399ff01187066045bd021",
+          "domainName": "orgac2047d6",
+          "version": "9.2.26092.134",
+          "instanceUrl": "https://orgac2047d6.crm.dynamics.com/",
+          "instanceApiUrl": "https://orgac2047d6.api.crm.dynamics.com",
+          "baseLanguage": 1033,
+          "instanceState": "Ready",
+          "createdTime": "2025-10-02T03:14:42Z",
+          "platformSku": "Standard"
+        }
+      },
+      "dataSources": {
+        "dat_accesscontrolenvironmentassignment": {
+          "entitySetName": "dat_accesscontrolenvironmentassignments",
+          "logicalName": "dat_accesscontrolenvironmentassignment",
+          "isHidden": false
+        },
+        "cr048_application1": {
+          "entitySetName": "cr048_application1s",
+          "logicalName": "cr048_application1",
+          "isHidden": false
+        },
+        "cr048_accessrole": {
+          "entitySetName": "cr048_accessroles",
+          "logicalName": "cr048_accessrole",
+          "isHidden": false
+        },
+        "cr048_accesscontrolentry": {
+          "entitySetName": "cr048_accesscontrolentries",
+          "logicalName": "cr048_accesscontrolentry",
+          "isHidden": false
+        },
+        "dat_requesteduserstageprogress": {
+          "entitySetName": "dat_requesteduserstageprogresses",
+          "logicalName": "dat_requesteduserstageprogress",
+          "isHidden": false
+        },
+        "dat_requestuserrole": {
+          "entitySetName": "dat_requestuserroles",
+          "logicalName": "dat_requestuserrole",
+          "isHidden": false
+        },
+        "cr048_environment": {
+          "entitySetName": "cr048_environments",
+          "logicalName": "cr048_environment",
+          "isHidden": false
+        },
+        "cr048_guidelink": {
+          "entitySetName": "cr048_guidelinks",
+          "logicalName": "cr048_guidelink",
+          "isHidden": false
+        },
+        "cr048_notificationrecord": {
+          "entitySetName": "cr048_notificationrecords",
+          "logicalName": "cr048_notificationrecord",
+          "isHidden": false
+        },
+        "cr048_requesteduser": {
+          "entitySetName": "cr048_requestedusers",
+          "logicalName": "cr048_requesteduser",
+          "isHidden": false
+        },
+        "cr048_workflowstageoption": {
+          "entitySetName": "cr048_workflowstageoptions",
+          "logicalName": "cr048_workflowstageoption",
+          "isHidden": false
+        },
+        "dat_accesscontrolroleassignment": {
+          "entitySetName": "dat_accesscontrolroleassignments",
+          "logicalName": "dat_accesscontrolroleassignment",
+          "isHidden": false
+        },
+        "cr048_requeststageconfiguration": {
+          "entitySetName": "cr048_requeststageconfigurations",
+          "logicalName": "cr048_requeststageconfiguration",
+          "isHidden": false
+        },
+        "dat_requestuser": {
+          "entitySetName": "dat_requestusers",
+          "logicalName": "dat_requestuser",
+          "isHidden": false
+        },
+        "cr048_activityrecord": {
+          "entitySetName": "cr048_activityrecords",
+          "logicalName": "cr048_activityrecord",
+          "isHidden": false
+        },
+        "cr048_emailtemplate": {
+          "entitySetName": "cr048_emailtemplates",
+          "logicalName": "cr048_emailtemplate",
+          "isHidden": false
+        },
+        "cr048_provisioningrequest": {
+          "entitySetName": "cr048_provisioningrequests",
+          "logicalName": "cr048_provisioningrequest",
+          "isHidden": false
+        },
+        "cr048_securityconfiguration": {
+          "entitySetName": "cr048_securityconfigurations",
+          "logicalName": "cr048_securityconfiguration",
+          "isHidden": false
+        }
+      }
+    }
+  }
+}

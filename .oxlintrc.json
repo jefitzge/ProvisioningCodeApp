@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": [
+    "node_modules/**",
+    "node_modules/.cache/**",
+    ".git/**",
+    ".power/**",
+    "app-gen-sdk/**",
+    "dist/**",
+    "src/generated/**",
+    "**/*.d.ts",
+    "**/*.d.cts",
+    "**/*.d.mts",
+    "**/test/**/*.js",
+    "**/tests/**/*.js"
+  ],
+  "plugins": ["react", "jsx-a11y", "typescript", "import", "unicorn"],
+  "rules": {
+    "no-const-assign": "error",
+    "no-this-before-super": "error",
+    "react/require-render-return": "error",
+    "react/rules-of-hooks": "error",
+    "unicorn/filename-case": [
+      "error",
+      { "case": "kebabCase", "ignore": ["^_layout$", "^[a-z]+\\.config$"] }
+    ]
+  },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "React": "readonly",
+    "process": "readonly",
+    "__dirname": "readonly"
+  }
+}

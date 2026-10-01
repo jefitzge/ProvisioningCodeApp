@@ -1,4 +1,5 @@
 # Provisioning Hub
+[![CI](https://github.com/jefitzge/ProvisioningCodeApp/actions/workflows/ci.yml/badge.svg)](https://github.com/jefitzge/ProvisioningCodeApp/actions/workflows/ci.yml)
 
 Provisioning Hub manages application access requests, configuration, provisioning activity, notifications, and access-control records backed by Dataverse.
 

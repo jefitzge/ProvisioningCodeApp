@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
-    defaults:
-      run:
-        working-directory: apps/provisioning-hub
+    # defaults:
+    #   run:
+    #     working-directory: apps/provisioning-hub
 
     steps:
       - name: Check out source
@@ -34,7 +34,8 @@ jobs:
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version-file: apps/provisioning-hub/.bun-version
+          # bun-version-file: apps/provisioning-hub/.bun-version
+          bun-version-file: .bun-version
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -72,6 +73,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: provisioning-hub-${{ steps.version.outputs.value }}
-          path: apps/provisioning-hub/dist
+          # path: apps/provisioning-hub/dist
+          path: dist
           if-no-files-found: error
           retention-days: 30

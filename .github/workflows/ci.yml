@@ -107,6 +107,9 @@ jobs:
           PA_CLI_SP_CLIENT_SECRET: ${{ secrets.PP_CLIENT_SECRET }}
           PA_CLI_SOLUTION_ID: ${{ vars.PP_SOLUTION_ID }}
         run: pa app push --non-interactive
+      
+      - name: Install Power Platform tools
+        uses: microsoft/powerplatform-actions/actions-install@v1
 
       - name: Export unmanaged solution
         uses: microsoft/powerplatform-actions/export-solution@v1

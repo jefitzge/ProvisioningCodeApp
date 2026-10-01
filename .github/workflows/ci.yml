@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        working-directory: apps/provisioning-hub
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: apps/provisioning-hub/.bun-version
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Calculate version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          elif [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            VERSION="0.1.0-pr.${{ github.event.pull_request.number }}.${GITHUB_RUN_NUMBER}"
+          else
+            VERSION="0.1.${GITHUB_RUN_NUMBER}"
+          fi
+
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "APP_VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Stamp package version
+        run: npm pkg set version="${APP_VERSION}"
+
+      - name: Run tests
+        run: bun run test
+
+      - name: Run type and lint checks
+        run: bun run check
+
+      - name: Build
+        env:
+          VITE_APP_VERSION: ${{ env.APP_VERSION }}
+        run: bun run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: provisioning-hub-${{ steps.version.outputs.value }}
+          path: apps/provisioning-hub/dist
+          if-no-files-found: error
+          retention-days: 30

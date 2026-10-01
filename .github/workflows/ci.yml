@@ -13,14 +13,15 @@ permissions:
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-and-test:
     name: Build and test
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
+    outputs:
+      version: ${{ steps.version.outputs.value }}
     # defaults:
     #   run:
     #     working-directory: apps/provisioning-hub
@@ -77,3 +78,61 @@ jobs:
           path: dist
           if-no-files-found: error
           retention-days: 30
+  deploy-and-check:
+    name: Publish to Power Platform and run Checker
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: power-platform-dev
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Download tested build
+        uses: actions/download-artifact@v4
+        with:
+          name: provisioning-hub-${{ needs.build-and-test.outputs.version }}
+          path: dist
+
+      - name: Install Power Apps CLI
+        run: npm install --global @microsoft/power-apps-cli
+
+      - name: Publish code app
+        env:
+          PA_CLI_USE_SP_AUTH: "true"
+          SP_CLIENT_ID: ${{ vars.PP_CLIENT_ID }}
+          SP_TENANT_ID: ${{ vars.PP_TENANT_ID }}
+          SP_CLIENT_SECRET: ${{ secrets.PP_CLIENT_SECRET }}
+          PA_CLI_SOLUTION_ID: ${{ vars.PP_SOLUTION_ID }}
+        run: pa app push --non-interactive
+
+      - name: Export unmanaged solution
+        uses: microsoft/powerplatform-actions/export-solution@v1
+        with:
+          environment-url: ${{ vars.PP_ENV_URL }}
+          app-id: ${{ vars.PP_CLIENT_ID }}
+          tenant-id: ${{ vars.PP_TENANT_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          solution-name: ${{ vars.PP_SOLUTION_NAME }}
+          solution-output-file: out/ProvisionIQ-unmanaged.zip
+          managed: false
+
+      - name: Run Power Platform Checker
+        uses: microsoft/powerplatform-actions/check-solution@v1
+        with:
+          environment-url: ${{ vars.PP_ENV_URL }}
+          app-id: ${{ vars.PP_CLIENT_ID }}
+          tenant-id: ${{ vars.PP_TENANT_ID }}
+          client-secret: ${{ secrets.PP_CLIENT_SECRET }}
+          path: out/ProvisionIQ-unmanaged.zip
+          geo: unitedstates
+
+      - name: Keep exported solution
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provisioniq-solution-${{ needs.build-and-test.outputs.version }}
+          path: out/ProvisionIQ-unmanaged.zip
+          if-no-files-found: warn

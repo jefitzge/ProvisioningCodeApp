@@ -102,9 +102,9 @@ jobs:
       - name: Publish code app
         env:
           PA_CLI_USE_SP_AUTH: "true"
-          SP_CLIENT_ID: ${{ vars.PP_CLIENT_ID }}
-          SP_TENANT_ID: ${{ vars.PP_TENANT_ID }}
-          SP_CLIENT_SECRET: ${{ secrets.PP_CLIENT_SECRET }}
+          PA_CLI_SP_CLIENT_ID: ${{ vars.PP_CLIENT_ID }}
+          PA_CLI_SP_TENANT_ID: ${{ vars.PP_TENANT_ID }}
+          PA_CLI_SP_CLIENT_SECRET: ${{ secrets.PP_CLIENT_SECRET }}
           PA_CLI_SOLUTION_ID: ${{ vars.PP_SOLUTION_ID }}
         run: pa app push --non-interactive
 

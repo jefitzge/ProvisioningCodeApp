@@ -7,8 +7,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.app.json --noEmit && vite build",
-    "check:fast": "concurrently --names 'tsgo,esbuild,lint,css' --prefix-colors 'blue,green,yellow,magenta' 'tsgo -p tsconfig.app.json --noEmit' 'esbuild src/main.tsx --bundle --format=esm --jsx=automatic --external:*.css --external:*.scss --external:*.sass --external:tailwindcss --external:tw-animate-css --log-level=error > /dev/null' 'bun lint' 'bun --bun tailwindcss -i src/index.css >/dev/null'",
-    "check": "concurrently --names 'tsgo,esbuild,lint,css' --prefix-colors 'blue,green,yellow,magenta' 'tsgo -p tsconfig.app.json --noEmit' 'esbuild src/main.tsx --bundle --format=esm --jsx=automatic --external:*.css --external:*.scss --external:*.sass --external:tailwindcss --external:tw-animate-css --log-level=error > /dev/null' 'bun lint' 'bun --bun tailwindcss -i src/index.css >/dev/null'",
+    "test": "bun test src/tests/app-contract.test.ts",
+    "test:integration": "bun test src/tests/dataverse-integration.test.ts",
+    "test:all": "bun run test && bun run test:integration",
+    "check:fast": "concurrently --names \"tsgo,esbuild,lint,css\" --prefix-colors \"blue,green,yellow,magenta\" \"tsgo -p tsconfig.app.json --noEmit\" \"esbuild src/main.tsx --bundle --format=esm --jsx=automatic --external:*.css --external:*.scss --external:*.sass --external:tailwindcss --external:tw-animate-css --log-level=error --outfile=.check-output.js\" \"bun lint\" \"bun --bun tailwindcss -i src/index.css -o .check-output.css\"",
+    "check": "bun run check:fast",
     "typecheck:go": "tsgo -p tsconfig.app.json --noEmit",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "lint": "oxlint --quiet",
